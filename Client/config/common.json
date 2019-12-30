@@ -1,0 +1,12 @@
+{
+    "serverPort": 3000,
+    "appName": "Dashboard",
+    "languages": {
+        "default": "es",
+        "list": ["es", "en"]
+    },
+    "security": {
+        "secretKey": "some-secret-key",
+        "expiresIn": "7d"
+    }
+}

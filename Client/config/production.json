@@ -1,0 +1,7 @@
+{
+    "baseUrl": "http://www.url.sh",
+    "api": {
+        "uri": "http://www.url.sh/api",
+        "credentials": "same-origin"
+    }
+}
