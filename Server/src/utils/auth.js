@@ -10,19 +10,17 @@ import { $security } from '@config';
 
 export const createToken = async user => {
     const { id, username, password, email } = user;
-    const token = setBase64(`${encrypt($security().secretKey)}${password}`);
+    const pswd = setBase64(`${encrypt($security().secretKey)}${password}`);
     const userData = {
         id,
         username,
         email,
-        token
+        pswd
     };
 
-    const newToken = jwt.sign(
-        { data: setBase64(userData) },
-        $security().secretKey,
-        { expiresIn: $security().expiresIn }
-    );
+    const newToken = jwt.sign({ data: userData }, $security().secretKey, {
+        expiresIn: $security().expiresIn
+    });
 
     return Promise.all([newToken]);
 };

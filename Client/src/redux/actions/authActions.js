@@ -1,15 +1,15 @@
 // Dependencies
 import axios from 'axios';
-//import jwt_decode from 'jwt-decode';
+import jwt from 'jsonwebtoken';
 
 // Import Action types
 import { GET_ERRORS, SET_CURRENT_USER } from './types';
 
 // Register User
-export const registerUser = (userData, history) => dispatch => {
+export const registerUser = (userData, href) => dispatch => {
     axios
-        .post('/api/users/register', userData)
-        .then(res => history.push('/login'))
+        .post('http://localhost:5000/api/register', userData)
+        .then(res => href('/room'))
         .catch(err =>
             dispatch({
                 type: GET_ERRORS,
@@ -18,9 +18,9 @@ export const registerUser = (userData, history) => dispatch => {
         );
 };
 
-export const loginUser = userData => dispatch => {
+export const loginUser = (userData, href) => dispatch => {
     axios
-        .post('/api/users/login', userData)
+        .post('http://localhost:5000/api/login', userData)
         .then(res => {
             // Save to Local Storage
             const { token } = res.data;
@@ -29,18 +29,18 @@ export const loginUser = userData => dispatch => {
             localStorage.setItem('Token', token);
 
             // Decode token to get user data
-            //const decoded = jwt_decode(token);
-            const decoded = token;
+            const decoded = jwt.verify(token.token, 'c2VjcmV0IGtleQ==');
 
             // Set current user
             dispatch(setCurrentUser(decoded));
+            href('/room');
         })
-        .catch(err =>
+        .catch(err => {
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
-            })
-        );
+            });
+        });
 };
 
 // Set logged in user

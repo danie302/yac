@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 
-// Assets
 import './index.scss';
 
 class Room extends Component {

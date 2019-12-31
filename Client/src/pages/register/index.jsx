@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Router from 'next/router';
 
 // Actions
 import { registerUser } from '@redux/actions/authActions';
@@ -46,7 +47,9 @@ class Register extends Component {
             password2: this.state.password2
         };
 
-        this.props.registerUser(newUser, 'register');
+        this.props.registerUser(newUser, href => {
+            Router.push(href);
+        });
     }
     render() {
         const { errors } = this.state;

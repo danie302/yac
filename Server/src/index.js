@@ -14,10 +14,14 @@ const io = new socketIO(server);
 // Models
 import models from './models';
 
+// Routes
+import auth from './routes';
+
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
+app.use('/api', auth);
 
 // Sockets connection
 io.on('connection', socket => {
@@ -30,7 +34,7 @@ io.on('connection', socket => {
 
 // Connecting and synchronizing with the db
 const alter = true;
-const force = true;
+const force = false;
 
 models.sequelize.sync({ alter, force }).then(() => {
     // Running server
