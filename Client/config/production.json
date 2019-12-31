@@ -2,6 +2,6 @@
     "baseUrl": "http://www.url.sh",
     "api": {
         "uri": "http://www.url.sh/api",
-        "credentials": "same-origin"
+        "credentials": "c2VjcmV0IGtleQ=="
     }
 }

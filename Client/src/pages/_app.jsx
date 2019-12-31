@@ -3,19 +3,12 @@ import { Provider } from 'react-redux';
 import App from 'next/app';
 import withRedux from 'next-redux-wrapper';
 import { store } from '../redux';
-import jwt from 'jsonwebtoken';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 
 // Components
 import Navbar from '@components/navbar';
 import Footer from '@components/footer';
-
-// Utils
-import { isBrowser } from '@utils/is';
-
-// Actions
-import { setCurrentUser, logoutUser } from '@redux/actions/authActions';
 
 export default withRedux(store, { debug: false })(
     class MyApp extends App {

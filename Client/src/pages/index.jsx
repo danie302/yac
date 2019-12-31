@@ -3,14 +3,16 @@ import React, { Component } from 'react';
 import Link from '@components/link';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Router from 'next/router';
 
 // Assets
 import './index.scss';
 
 class Home extends Component {
     componentDidMount() {
+        // Check if the user is already authenticated
         if (this.props.auth.isAuthenticated) {
-            console.log('auth true');
+            Router.push('/room');
         }
     }
     render() {

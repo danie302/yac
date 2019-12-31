@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'next/router';
+import Router from 'next/router';
 
 // Actions
 import { loginUser } from '@redux/actions/authActions';
@@ -20,16 +20,19 @@ class Login extends Component {
     }
 
     componentDidMount() {
+        // Check if user is already authenticated
         if (this.props.auth.isAuthenticated) {
-            this.props.router.push('/room');
+            Router.push('/room');
         }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
+        // Check if user disconnect
         if (nextProps.auth.isAuthenticated) {
-            this.props.router.push('/room');
+            Router.push('/room');
         }
 
+        // Check for errors
         if (nextProps.errors) {
             this.setState({ errors: nextProps.errors });
         }
@@ -46,9 +49,9 @@ class Login extends Component {
             email: this.state.email,
             password: this.state.password
         };
-
+        // Dispatch user log in
         this.props.loginUser(User, href => {
-            this.props.router.push(href);
+            Router.push(href);
         });
     }
 
@@ -104,4 +107,4 @@ const mapStateToProps = state => ({
     errors: state.errors
 });
 
-export default connect(mapStateToProps, { loginUser })(withRouter(Login));
+export default connect(mapStateToProps, { loginUser })(Login);

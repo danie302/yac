@@ -25,6 +25,7 @@ nextApp.prepare().then(() => {
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(cors({ credentials: true, origin: true }));
 
+    // Manage nextJs routes
     app.all('*', (req, res) => {
         return handle(req, res);
     });

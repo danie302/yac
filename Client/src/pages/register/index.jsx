@@ -22,12 +22,14 @@ class Register extends Component {
     }
 
     componentDidMount() {
+        // Check if user is already authenticated
         if (this.props.auth.isAuthenticated) {
             Router.push('/room');
         }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
+        // Check for errors
         if (nextProps.errors) {
             this.setState({ errors: nextProps.errors });
         }
@@ -46,7 +48,7 @@ class Register extends Component {
             password: this.state.password,
             password2: this.state.password2
         };
-
+        // Dispatch user register
         this.props.registerUser(newUser, href => {
             Router.push(href);
         });

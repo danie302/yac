@@ -7,13 +7,16 @@ import storage from 'redux-persist/lib/storage';
 
 const middleware = [thunk];
 
+// Persist config
 const persistConfig = {
     key: 'primary',
     storage
 };
 
+// Create persist reducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+// Create and export redux store
 export const store = (initialState = {}) => {
     return createStore(
         persistedReducer,

@@ -5,18 +5,29 @@ import io from 'socket.io-client';
 import { connect } from 'react-redux';
 import Router from 'next/router';
 
+// Config
+import config from '@config';
+
+// Assets
 import './index.scss';
 
+// Utils
+import { capitalize } from '@utils/utils';
+
 class Room extends Component {
+    constructor(props) {
+        super(props);
+        // Init socket connection
+        this.socket = io(config.baseUrl);
+    }
+
+    // Init state
     state = {
         name: '',
         message: '',
         chat: []
     };
-    capitalize(s) {
-        if (typeof s !== 'string') return '';
-        return s.charAt(0).toUpperCase() + s.slice(1);
-    }
+    // Function to keep chat box at the bottom
     scrollToBot(id) {
         const divToScrollTo = document.getElementById(id);
         if (divToScrollTo) {
@@ -29,12 +40,11 @@ class Room extends Component {
         }
     }
     componentDidMount() {
-        console.log(this.props.auth);
-
+        // Check if user is already authenticated
         if (!this.props.auth.isAuthenticated) {
             Router.push('/login');
         } else {
-            this.socket = io('http://192.168.1.4:5000');
+            // Listen for msg
             this.socket.on('msg', data => {
                 if (data) {
                     this.setState({
@@ -48,6 +58,10 @@ class Room extends Component {
             }
         }
     }
+    componentWillUnmount() {
+        // Remove socket listeners
+        this.socket.removeAllListeners('msg');
+    }
     handleChange(data) {
         this.setState({
             [data.target.name]: [data.target.value]
@@ -56,8 +70,8 @@ class Room extends Component {
     Submit(e) {
         e.preventDefault();
         let { name, message, chat } = this.state;
-        name = this.capitalize(name);
-        message = this.capitalize(message[0]);
+        name = capitalize(name);
+        message = capitalize(message[0]);
 
         this.socket.emit('msg', {
             name: name,

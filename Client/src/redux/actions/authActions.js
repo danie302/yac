@@ -2,13 +2,16 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 
+// Config
+import config from '@config';
+
 // Import Action types
 import { GET_ERRORS, SET_CURRENT_USER } from './types';
 
 // Register User
 export const registerUser = (userData, href) => dispatch => {
     axios
-        .post('http://localhost:5000/api/register', userData)
+        .post(config.api.uri + '/register', userData)
         .then(res => href('/room'))
         .catch(err =>
             dispatch({
@@ -18,19 +21,19 @@ export const registerUser = (userData, href) => dispatch => {
         );
 };
 
+// Login User
 export const loginUser = (userData, href) => dispatch => {
     axios
-        .post('http://localhost:5000/api/login', userData)
+        .post(config.api.uri + '/login', userData)
         .then(res => {
             // Save to Local Storage
             const { token } = res.data;
-            console.log(token);
 
             // Store token in LocalStorage
             localStorage.setItem('Token', token.token);
 
             // Decode token to get user data
-            const decoded = jwt.verify(token.token, 'c2VjcmV0IGtleQ==');
+            const decoded = jwt.verify(token.token, config.api.credentials);
 
             // Set current user
             dispatch(setCurrentUser(decoded));
