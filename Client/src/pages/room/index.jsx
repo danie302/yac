@@ -1,6 +1,9 @@
 // Dependencies
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import io from 'socket.io-client';
+import { connect } from 'react-redux';
+import Router from 'next/router';
 
 import './index.scss';
 
@@ -26,15 +29,24 @@ class Room extends Component {
         }
     }
     componentDidMount() {
-        this.socket = io('http://192.168.1.4:5000');
-        this.socket.on('msg', data => {
-            if (data) {
-                this.setState({
-                    chat: [...this.state.chat, data]
-                });
-                this.scrollToBot('chatBox');
+        console.log(this.props.auth);
+
+        if (!this.props.auth.isAuthenticated) {
+            Router.push('/login');
+        } else {
+            this.socket = io('http://192.168.1.4:5000');
+            this.socket.on('msg', data => {
+                if (data) {
+                    this.setState({
+                        chat: [...this.state.chat, data]
+                    });
+                    this.scrollToBot('chatBox');
+                }
+            });
+            if (this.props.auth.user.data) {
+                this.setState({ name: this.props.auth.user.data.username });
             }
-        });
+        }
     }
     handleChange(data) {
         this.setState({
@@ -44,8 +56,9 @@ class Room extends Component {
     Submit(e) {
         e.preventDefault();
         let { name, message, chat } = this.state;
-        name = this.capitalize(name[0]);
+        name = this.capitalize(name);
         message = this.capitalize(message[0]);
+
         this.socket.emit('msg', {
             name: name,
             msg: message
@@ -62,14 +75,7 @@ class Room extends Component {
             <div className="wrapper">
                 <h1 className="home">Chat Room</h1>
                 <form className="form">
-                    <input
-                        type="text"
-                        placeholder="Enter your name"
-                        name="name"
-                        value={name}
-                        onChange={this.handleChange.bind(this)}
-                        className="form--input"
-                    />
+                    <label>Welcome {this.state.name}</label>
                     <br />
                     <input
                         placeholder="Chat Here"
@@ -103,5 +109,12 @@ class Room extends Component {
         );
     }
 }
+Room.propTypes = {
+    auth: PropTypes.object.isRequired
+};
 
-export default Room;
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+export default connect(mapStateToProps)(Room);

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Link from '../link';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Router from 'next/router';
 
 // Actions
 import { logoutUser } from '@redux/actions/authActions';
@@ -11,6 +12,7 @@ class Navbar extends Component {
     onLogoutClick(e) {
         e.preventDefault();
         this.props.logoutUser();
+        Router.push('/login');
     }
     render() {
         const { isAuthenticated, user } = this.props.auth;

@@ -39,8 +39,6 @@ router.post('/login', (req, res) => {
             });
         })
         .catch(err => {
-            console.log('fail');
-
             errors.user = 'Invalid login';
             return res.status(400).json(errors);
         });

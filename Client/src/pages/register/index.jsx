@@ -23,7 +23,7 @@ class Register extends Component {
 
     componentDidMount() {
         if (this.props.auth.isAuthenticated) {
-            console.log('auth true');
+            Router.push('/room');
         }
     }
 

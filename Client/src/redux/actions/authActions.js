@@ -24,9 +24,10 @@ export const loginUser = (userData, href) => dispatch => {
         .then(res => {
             // Save to Local Storage
             const { token } = res.data;
+            console.log(token);
 
             // Store token in LocalStorage
-            localStorage.setItem('Token', token);
+            localStorage.setItem('Token', token.token);
 
             // Decode token to get user data
             const decoded = jwt.verify(token.token, 'c2VjcmV0IGtleQ==');

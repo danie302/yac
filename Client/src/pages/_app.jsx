@@ -3,13 +3,26 @@ import { Provider } from 'react-redux';
 import App from 'next/app';
 import withRedux from 'next-redux-wrapper';
 import { store } from '../redux';
+import jwt from 'jsonwebtoken';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 
 // Components
 import Navbar from '@components/navbar';
 import Footer from '@components/footer';
 
+// Utils
+import { isBrowser } from '@utils/is';
+
+// Actions
+import { setCurrentUser, logoutUser } from '@redux/actions/authActions';
+
 export default withRedux(store, { debug: false })(
     class MyApp extends App {
+        constructor(props) {
+            super(props);
+            this.persistor = persistStore(props.store);
+        }
         static async getInitialProps({ Component, ctx }) {
             return {
                 pageProps: {
@@ -19,14 +32,18 @@ export default withRedux(store, { debug: false })(
                 }
             };
         }
-
         render() {
             const { Component, pageProps, store } = this.props;
             return (
                 <Provider store={store}>
-                    <Navbar />
-                    <Component {...pageProps} />
-                    <Footer />
+                    <PersistGate
+                        loading={<Component {...pageProps} />}
+                        persistor={this.persistor}
+                    >
+                        <Navbar />
+                        <Component {...pageProps} />
+                        <Footer />
+                    </PersistGate>
                 </Provider>
             );
         }
