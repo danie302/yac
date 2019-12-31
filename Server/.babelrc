@@ -15,7 +15,8 @@
             {
                 "root": ["./"],
                 "alias": {
-                    "@config": "./config"
+                    "@config": "./config",
+                    "@utils": "./src/utils"
                 }
             }
         ]

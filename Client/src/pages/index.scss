@@ -1,0 +1,56 @@
+.home-title {
+    font-size: 5vw;
+}
+.home-text {
+    align-items: center;
+    width: 60vw;
+    font-size: 2vw;
+}
+
+.home-btn {
+    font-size: 2.5vw;
+    height: 6vw;
+    width: 15vw;
+    text-align: center;
+}
+
+.img {
+    width: 100%;
+}
+
+.landing {
+    position: relative;
+    background: url('https://c8.alamy.com/compes/2a6rtd2/social-media-compartir-personas-telefono-tendencia-vectorial-ilustracion-con-el-hombre-y-la-mujer-persona-sonrisa-mensaje-concepto-dispositivo-movil-la-red-internet-chat-aplic-2a6rtd2.jpg')
+        no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin-top: -24px;
+    margin-bottom: -50px;
+}
+
+.landing-inner {
+    padding-top: 80px;
+}
+
+.dark-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.card-form {
+    opacity: 0.9;
+}
+
+.latest-profiles-img {
+    width: 40px;
+    height: 40px;
+}
+
+.form-control::placeholder {
+    color: #bbb !important;
+}

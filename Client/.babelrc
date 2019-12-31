@@ -6,7 +6,11 @@
             {
                 "root": ["./"],
                 "alias": {
-                    "@config": "./config"
+                    "@config": "./config",
+                    "@utils": "./src/utils",
+                    "@redux": "./src/redux",
+                    "@components": "./src/components",
+                    "@public": "./public"
                 }
             }
         ]

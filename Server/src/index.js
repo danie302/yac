@@ -11,6 +11,9 @@ const app = express();
 const server = http.createServer(app);
 const io = new socketIO(server);
 
+// Models
+import models from './models';
+
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,7 +28,13 @@ io.on('connection', socket => {
     });
 });
 
-// Running server
-server.listen($serverPort().toString(), () => {
-    console.log(`Server start on port: ${$serverPort()}`);
+// Connecting and synchronizing with the db
+const alter = true;
+const force = true;
+
+models.sequelize.sync({ alter, force }).then(() => {
+    // Running server
+    server.listen($serverPort().toString(), () => {
+        console.log(`Server start on port: ${$serverPort()}`);
+    });
 });

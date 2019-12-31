@@ -1,0 +1,54 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+}
+
+.home {
+    display: flex;
+    justify-content: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    &--input {
+        width: 20vw;
+        margin: auto;
+    }
+    &--button {
+        width: 10vw;
+        margin: auto;
+    }
+}
+
+.chatBox {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(104, 112, 223);
+    margin: auto;
+    margin-top: 1vw;
+    border-radius: 20px;
+    width: 70vw;
+    height: 40vw;
+    &--title {
+        margin-right: auto;
+        margin-left: auto;
+    }
+    &--box {
+        background-color: whitesmoke;
+        border-radius: 20px;
+        width: 60vw;
+        height: 35vw;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: -1vw;
+        overflow-y: auto;
+    }
+    &--message {
+        list-style-type: none;
+        margin-top: 1vw;
+    }
+}

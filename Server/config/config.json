@@ -1,14 +1,14 @@
 {
     "serverPort": 5000,
     "db": {
-        "host": "",
-        "dialect": "",
-        "database": "",
-        "username": "",
-        "password": ""
+        "host": "hackathon.cc2vb3ot4m30.us-east-1.rds.amazonaws.com",
+        "dialect": "postgresql",
+        "database": "chatgroup",
+        "username": "hachadmin",
+        "password": "hackadmin"
     },
     "security": {
-        "secretKey": "some-secret-key",
+        "secretKey": "c2VjcmV0IGtleQ==",
         "expiresIn": "7d"
     }
 }

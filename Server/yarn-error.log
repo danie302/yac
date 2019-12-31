@@ -1,0 +1,62 @@
+Arguments: 
+  /usr/bin/node /usr/bin/yarn add pg pg-store
+
+PATH: 
+  /home/daniel/.rvm/gems/ruby-2.5.5/bin:/home/daniel/.rvm/gems/ruby-2.5.5@global/bin:/home/daniel/.rvm/rubies/ruby-2.5.5/bin:/home/daniel/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/opt/android-sdk/tools:/opt/android-sdk/tools/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/var/lib/snapd/snap/bin:/home/daniel/.rvm/bin:/home/daniel/.rvm/bin
+
+Yarn version: 
+  1.21.1
+
+Node version: 
+  12.13.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/pg-store: Not found
+      at Request.params.callback [as _callback] (/usr/lib/node_modules/yarn/lib/cli.js:66947:18)
+      at Request.self.callback (/usr/lib/node_modules/yarn/lib/cli.js:140665:22)
+      at Request.emit (events.js:210:5)
+      at Request.<anonymous> (/usr/lib/node_modules/yarn/lib/cli.js:141637:10)
+      at Request.emit (events.js:210:5)
+      at IncomingMessage.<anonymous> (/usr/lib/node_modules/yarn/lib/cli.js:141559:12)
+      at Object.onceWrapper (events.js:299:28)
+      at IncomingMessage.emit (events.js:215:7)
+      at endReadableNT (_stream_readable.js:1183:12)
+      at processTicksAndRejections (internal/process/task_queues.js:80:21)
+
+npm manifest: 
+  {
+      "name": "group_chat",
+      "version": "1.0.0",
+      "description": "group chat app for mlt studio tech test",
+      "main": "index.js",
+      "scripts": {
+          "dev": "nodemon src/index.js --ext js --exec babel-node"
+      },
+      "author": "daniel daza",
+      "license": "MIT",
+      "devDependencies": {
+          "@babel/core": "^7.7.7",
+          "@babel/node": "^7.7.7",
+          "@babel/preset-env": "^7.7.7",
+          "babel-plugin-module-resolver": "^4.0.0",
+          "jest": "^24.9.0",
+          "nodemon": "^2.0.2"
+      },
+      "dependencies": {
+          "body-parser": "^1.19.0",
+          "cors": "^2.8.5",
+          "express": "^4.17.1",
+          "jsonwebtoken": "^8.5.1",
+          "sequelize": "^5.21.3",
+          "socket.io": "^2.3.0"
+      }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
