@@ -46,6 +46,7 @@ class Room extends Component {
         }
     }
     UNSAFE_componentWillMount() {
+        // Retrieve chats
         this.props.getChat();
     }
     componentDidMount() {
@@ -56,15 +57,15 @@ class Room extends Component {
             // Listen for msg
             this.socket.on('msg', data => {
                 if (data) {
+                    // Update incoming messages
                     this.setState({
                         chat: [...this.state.chat, data]
                     });
+                    // Scroll down
                     this.scrollToBot('chatBox');
                 }
             });
-            if (this.props.auth.user.data) {
-                this.setState({ name: this.props.auth.user.data.username });
-            }
+            // Load chat in to state
             let newChat = [];
             this.props.chat.chat.map((data, index) => {
                 let { username, content, time } = data;
@@ -94,6 +95,7 @@ class Room extends Component {
     }
     Submit(e) {
         e.preventDefault();
+        // Format data from state to submit
         let { name, message } = this.state;
         let date = new Date();
         let username = capitalize(name);
@@ -102,7 +104,9 @@ class Room extends Component {
         let min = date.getMinutes();
         let time = `${hour}:${min}`;
         let msg = { username, content, time };
+        // Submit the msg
         this.socket.emit('msg', msg);
+        // Push the sended msg to state to show in screen
         let lastChat = this.state.chat;
         lastChat.push(msg);
         this.setState(
@@ -117,6 +121,7 @@ class Room extends Component {
     }
     render() {
         let { chat, message } = this.state;
+        let { username } = this.props.auth.user.data;
         return (
             <div className="wrapper">
                 <div className="chatBox">
@@ -129,7 +134,7 @@ class Room extends Component {
                                         username={data.username}
                                         content={data.content}
                                         time={data.time}
-                                        logUser={capitalize(this.state.name)}
+                                        logUser={capitalize(username)}
                                     />
                                 </div>
                             );
@@ -137,7 +142,7 @@ class Room extends Component {
                     </div>
                     <form className="form">
                         <label className="form--label">
-                            Welcome {this.state.name}
+                            Welcome {username}
                         </label>
                         <br />
                         <input
