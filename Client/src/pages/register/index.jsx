@@ -110,8 +110,7 @@ class Register extends Component {
 
 Register.propTypes = {
     registerUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({

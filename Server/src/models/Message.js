@@ -1,4 +1,4 @@
-export default (sequelize, { TEXT, UUID, UUIDV4 }) => {
+export default (sequelize, { TEXT, STRING, UUID, UUIDV4 }) => {
     const Message = sequelize.define('Message', {
         id: {
             primaryKey: true,
@@ -8,6 +8,14 @@ export default (sequelize, { TEXT, UUID, UUIDV4 }) => {
         },
         content: {
             type: TEXT,
+            allowNull: false
+        },
+        time: {
+            type: STRING,
+            allowNull: false
+        },
+        username: {
+            type: STRING,
             allowNull: false
         }
     });

@@ -27,8 +27,15 @@ app.use('/api', auth);
 io.on('connection', socket => {
     console.log('User connected');
     socket.on('msg', data => {
-        console.log(`${data.name} send msg: ${data.msg}`);
-        socket.broadcast.emit('msg', `${data.name}: ${data.msg}`);
+        let { username, content, time } = data;
+        username = username.toLowerCase();
+        models.User.findOne({
+            where: { username }
+        }).then(user => {
+            models.Message.create({ content, time, username });
+
+            socket.broadcast.emit('msg', { content, time, username });
+        });
     });
 });
 

@@ -5,8 +5,14 @@ import io from 'socket.io-client';
 import { connect } from 'react-redux';
 import Router from 'next/router';
 
+// Components
+import Message from '@components/message';
+
 // Config
 import config from '@config';
+
+// Actions
+import { getChat } from '@redux/actions/chatActions';
 
 // Assets
 import './index.scss';
@@ -33,11 +39,14 @@ class Room extends Component {
         if (divToScrollTo) {
             let amountToScroll = divToScrollTo.scrollHeight;
             divToScrollTo.scrollBy({
-                top: amountToScroll + 100,
+                top: amountToScroll + 1000,
                 left: 0,
                 behavior: 'smooth'
             });
         }
+    }
+    UNSAFE_componentWillMount() {
+        this.props.getChat();
     }
     componentDidMount() {
         // Check if user is already authenticated
@@ -56,11 +65,27 @@ class Room extends Component {
             if (this.props.auth.user.data) {
                 this.setState({ name: this.props.auth.user.data.username });
             }
+            let newChat = [];
+            this.props.chat.chat.map((data, index) => {
+                let { username, content, time } = data;
+                username = capitalize(username);
+                content = capitalize(content);
+                let tempMsg = { username, content, time };
+                newChat.push(tempMsg);
+            });
+            this.setState(
+                {
+                    chat: newChat
+                },
+                () => {
+                    this.scrollToBot('chatBox');
+                }
+            );
         }
     }
     componentWillUnmount() {
         // Remove socket listeners
-        this.socket.removeAllListeners('msg');
+        this.socket.removeAllListeners();
     }
     handleChange(data) {
         this.setState({
@@ -69,66 +94,81 @@ class Room extends Component {
     }
     Submit(e) {
         e.preventDefault();
-        let { name, message, chat } = this.state;
-        name = capitalize(name);
-        message = capitalize(message[0]);
-
-        this.socket.emit('msg', {
-            name: name,
-            msg: message
-        });
-        this.setState({
-            message: '',
-            chat: [...chat, `${name}: ${message}`]
-        });
-        this.scrollToBot('chatBox');
+        let { name, message } = this.state;
+        let date = new Date();
+        let username = capitalize(name);
+        let content = capitalize(message[0]);
+        let hour = date.getHours();
+        let min = date.getMinutes();
+        let time = `${hour}:${min}`;
+        let msg = { username, content, time };
+        this.socket.emit('msg', msg);
+        let lastChat = this.state.chat;
+        lastChat.push(msg);
+        this.setState(
+            {
+                message: '',
+                chat: lastChat
+            },
+            () => {
+                this.scrollToBot('chatBox');
+            }
+        );
     }
     render() {
-        let { chat, message, name } = this.state;
+        let { chat, message } = this.state;
         return (
             <div className="wrapper">
-                <h1 className="home">Chat Room</h1>
-                <form className="form">
-                    <label>Welcome {this.state.name}</label>
-                    <br />
-                    <input
-                        placeholder="Chat Here"
-                        type="text"
-                        name="message"
-                        value={message}
-                        onChange={this.handleChange.bind(this)}
-                        className="form--input"
-                    />
-                    <br />
-                    <button
-                        onClick={this.Submit.bind(this)}
-                        className="form--button"
-                    >
-                        Send
-                    </button>
-                </form>
                 <div className="chatBox">
-                    <p className="chatBox--title">Chat messages</p>
-                    <ul className="chatBox--box" id="chatBox">
+                    <p className="chatBox--title">Chat Room</p>
+                    <div className="chatBox--box" id="chatBox">
                         {chat.map((data, index) => {
                             return (
-                                <li key={index} className="chatBox--message">
-                                    {data}
-                                </li>
+                                <div key={index} className="chatBox--message">
+                                    <Message
+                                        username={data.username}
+                                        content={data.content}
+                                        time={data.time}
+                                        logUser={capitalize(this.state.name)}
+                                    />
+                                </div>
                             );
                         })}
-                    </ul>
+                    </div>
+                    <form className="form">
+                        <label className="form--label">
+                            Welcome {this.state.name}
+                        </label>
+                        <br />
+                        <input
+                            placeholder="Chat Here"
+                            type="text"
+                            name="message"
+                            value={message}
+                            onChange={this.handleChange.bind(this)}
+                            className="form--input"
+                        />
+                        <button
+                            onClick={this.Submit.bind(this)}
+                            className="form--button"
+                        >
+                            Send
+                        </button>
+                    </form>
                 </div>
             </div>
         );
     }
 }
 Room.propTypes = {
-    auth: PropTypes.object.isRequired
+    getChat: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    chat: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    chat: state.chat
 });
 
-export default connect(mapStateToProps)(Room);
+export default connect(mapStateToProps, { getChat })(Room);

@@ -2,8 +2,6 @@
 import express from 'express';
 
 // Utils
-import { encrypt } from '@utils/security';
-import { isPasswordMatch } from '@utils/is';
 import { doLogin } from '@utils/auth';
 import models from '../models';
 
@@ -42,6 +40,14 @@ router.post('/login', (req, res) => {
             errors.user = 'Invalid login';
             return res.status(400).json(errors);
         });
+});
+
+router.get('/chat', (req, res) => {
+    models.Message.findAll().then(msgs => {
+        res.json({
+            msgs
+        });
+    });
 });
 
 export default router;

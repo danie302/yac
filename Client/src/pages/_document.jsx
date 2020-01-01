@@ -31,6 +31,10 @@ export default class MyDocument extends Document {
                         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
                         crossorigin="anonymous"
                     ></script>
+                    <link
+                        href="https://fonts.googleapis.com/css?family=Ma+Shan+Zheng|Oswald|Roboto+Slab&display=swap"
+                        rel="stylesheet"
+                    ></link>
                 </Head>
                 <body>
                     <Main />

@@ -12,15 +12,27 @@
 
 .form {
     display: flex;
-    flex-direction: column;
     justify-content: center;
+    margin: 2%;
+    width: 50vw;
+    &--label {
+        margin: auto;
+        color: whitesmoke;
+        font-size: 2vw;
+        font-family: 'Ma Shan Zheng', cursive;
+    }
     &--input {
         width: 20vw;
         margin: auto;
+        font-size: 1.6vw;
+        font-family: 'Roboto Slab', serif;
     }
     &--button {
         width: 10vw;
+        font-size: 1.6vw;
+        font-family: 'Ma Shan Zheng', cursive;
         margin: auto;
+        margin-left: -1.2%;
     }
 }
 
@@ -29,26 +41,29 @@
     flex-direction: column;
     background-color: rgb(104, 112, 223);
     margin: auto;
-    margin-top: 1vw;
-    border-radius: 20px;
-    width: 70vw;
-    height: 40vw;
+    width: 100%;
+    height: 100%;
+    align-content: center;
+    align-items: center;
     &--title {
         margin-right: auto;
         margin-left: auto;
+        font-size: 2.3vw;
+        font-family: 'Roboto Slab', serif;
+        color: whitesmoke;
+        margin: 1%;
     }
     &--box {
         background-color: whitesmoke;
-        border-radius: 20px;
         width: 60vw;
         height: 35vw;
-        margin-right: auto;
-        margin-left: auto;
         margin-top: -1vw;
         overflow-y: auto;
     }
     &--message {
         list-style-type: none;
         margin-top: 1vw;
+        align-content: left;
+        align-items: left;
     }
 }

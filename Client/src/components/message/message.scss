@@ -1,0 +1,25 @@
+.messageBox {
+    display: flex;
+    flex-direction: column;
+    background-color: yellowgreen;
+    border-radius: 20px;
+    &--name {
+        font-size: 1vw;
+        font-family: 'Roboto Slab', serif;
+    }
+    &--content {
+        font-size: 2vw;
+        font-family: 'Roboto Slab', serif;
+    }
+    &--time {
+        font-size: 0.8vw;
+        font-family: 'Roboto Slab', serif;
+    }
+    &--left {
+        margin-left: 3%;
+    }
+    &--right {
+        margin-left: auto;
+        margin-right: 4%;
+    }
+}

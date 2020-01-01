@@ -51,15 +51,5 @@ export default (sequelize, { STRING, UUID, UUIDV4 }) => {
         }
     );
 
-    User.associate = models => {
-        User.hasMany(models.Message, {
-            foreignKey: {
-                name: 'userId',
-                field: 'user_id'
-            },
-            as: 'messages'
-        });
-    };
-
     return User;
 };
