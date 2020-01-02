@@ -43,7 +43,6 @@ class Room extends Component {
             let newChat = [];
             props.chat.chat.map((data, index) => {
                 let { username, content, time } = data;
-                username = username;
                 content = capitalize(content);
                 let tempMsg = { username, content, time };
                 newChat.push(tempMsg);
