@@ -7,6 +7,9 @@ import { withRouter } from 'react-router-dom';
 // Actions
 import { loginUser } from '../../redux/actions/authActions';
 
+// Utils
+import { isEmpty } from '../../utils/is';
+
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -56,6 +59,14 @@ class Login extends Component {
     }
 
     render() {
+        let existError;
+        if (!isEmpty(this.state.errors)) {
+            existError = (
+                <div className="alert alert-danger" role="alert">
+                    {this.state.errors}
+                </div>
+            );
+        }
         return (
             <div className="login">
                 <div className="container">
@@ -65,6 +76,7 @@ class Login extends Component {
                             <p className="lead text-center">
                                 Sign in to your Chat account
                             </p>
+                            {existError}
                             <form noValidate onSubmit={this.onSubmit}>
                                 <input
                                     className="form-control form-control-lg"
@@ -99,7 +111,8 @@ class Login extends Component {
 
 Login.propTypes = {
     loginUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({

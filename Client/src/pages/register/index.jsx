@@ -7,6 +7,9 @@ import { withRouter } from 'react-router-dom';
 // Actions
 import { registerUser } from '../../redux/actions/authActions';
 
+// Utils
+import { isEmpty } from '../../utils/is';
+
 class Register extends Component {
     constructor(props) {
         super(props);
@@ -14,7 +17,6 @@ class Register extends Component {
             username: '',
             email: '',
             password: '',
-            password2: '',
             errors: {}
         };
         this.onChange = this.onChange.bind(this);
@@ -45,8 +47,7 @@ class Register extends Component {
         const newUser = {
             username: this.state.username,
             email: this.state.email,
-            password: this.state.password,
-            password2: this.state.password2
+            password: this.state.password
         };
         // Dispatch user register
         this.props.registerUser(newUser, href => {
@@ -54,6 +55,14 @@ class Register extends Component {
         });
     }
     render() {
+        let existError;
+        if (!isEmpty(this.state.errors)) {
+            existError = (
+                <div className="alert alert-danger" role="alert">
+                    {this.state.errors}
+                </div>
+            );
+        }
         return (
             <div className="register">
                 <div className="container">
@@ -63,6 +72,7 @@ class Register extends Component {
                             <p className="lead text-center">
                                 Create your DevConnector account
                             </p>
+                            {existError}
                             <form noValidate onSubmit={this.onSubmit}>
                                 <input
                                     className="form-control form-control-lg"
@@ -104,7 +114,8 @@ class Register extends Component {
 
 Register.propTypes = {
     registerUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({

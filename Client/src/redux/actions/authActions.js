@@ -12,13 +12,18 @@ import { GET_ERRORS, SET_CURRENT_USER } from './types';
 export const registerUser = (userData, href) => dispatch => {
     axios
         .post(config.api.uri + '/register', userData)
-        .then(res => href('/login'))
-        .catch(err =>
+        .then(res => {
+            return res.json();
+        })
+        .then(res => {
+            href('/login');
+        })
+        .catch(err => {
             dispatch({
                 type: GET_ERRORS,
-                payload: err
-            })
-        );
+                payload: err.response.data.user
+            });
+        });
 };
 
 // Login User
@@ -44,7 +49,7 @@ export const loginUser = (userData, href) => dispatch => {
         .catch(err => {
             dispatch({
                 type: GET_ERRORS,
-                payload: err
+                payload: err.response.data.user
             });
         });
 };

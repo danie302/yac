@@ -8,6 +8,7 @@ import Home from '../pages';
 import Login from '../pages/login';
 import Register from '../pages/register';
 import Room from '../pages/room';
+import PrivateRoute from '../components/privateRoute';
 
 const AppRoutes = () => (
     <App>
@@ -15,7 +16,7 @@ const AppRoutes = () => (
             <Route path="/" exact component={Home} />
             <Route path="/login" exact component={Login} />
             <Route path="/register" exact component={Register} />
-            <Route path="/room" exact component={Room} />
+            <PrivateRoute path="/room" exact component={Room} />
         </Switch>
     </App>
 );

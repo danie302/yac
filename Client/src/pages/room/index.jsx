@@ -59,24 +59,19 @@ class Room extends Component {
     }
 
     componentDidMount() {
-        // Check if user is already authenticated
-        if (!this.props.auth.isAuthenticated) {
-            this.props.history.push('/login');
-        } else {
-            // Listen for msg
-            this.socket.on('msg', data => {
-                if (data) {
-                    console.log(data);
+        // Listen for msg
+        this.socket.on('msg', data => {
+            if (data) {
+                console.log(data);
 
-                    // Update incoming messages
-                    this.setState({
-                        chat: [...this.state.chat, data]
-                    });
-                    // Scroll down
-                    scrollToBot('chatBox');
-                }
-            });
-        }
+                // Update incoming messages
+                this.setState({
+                    chat: [...this.state.chat, data]
+                });
+                // Scroll down
+                scrollToBot('chatBox');
+            }
+        });
     }
 
     componentWillUnmount() {
