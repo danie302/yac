@@ -21,13 +21,13 @@ import { getChat } from '../../redux/actions/chatActions';
 import './index.scss';
 
 // Utils
-import { capitalize } from '../../utils/utils';
+import { capitalize, scrollToBot } from '../../utils/utils';
 
 class Room extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
+            user: '',
             message: '',
             chat: []
         };
@@ -38,43 +38,25 @@ class Room extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        console.log(state);
-
         if (props.chat.isReady === true && isEmpty(state.chat)) {
             // Load chat in to state
             let newChat = [];
             props.chat.chat.map((data, index) => {
                 let { username, content, time } = data;
-                username = capitalize(username);
+                username = username;
                 content = capitalize(content);
                 let tempMsg = { username, content, time };
                 newChat.push(tempMsg);
+                return 0;
             });
             return {
                 chat: newChat,
                 user: props.auth.user.data.username
             };
         }
-        return null;
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.chat !== prevState.chat) {
-            this.scrollToBot('chatBox');
-        }
-    }
-
-    // Function to keep chat box at the bottom
-    scrollToBot(id) {
-        const divToScrollTo = document.getElementById(id);
-        if (divToScrollTo) {
-            let amountToScroll = divToScrollTo.scrollHeight;
-            divToScrollTo.scrollBy({
-                top: amountToScroll + 1000,
-                left: 0,
-                behavior: 'smooth'
-            });
-        }
+        return {
+            user: props.auth.user.data.username
+        };
     }
 
     componentDidMount() {
@@ -85,12 +67,14 @@ class Room extends Component {
             // Listen for msg
             this.socket.on('msg', data => {
                 if (data) {
+                    console.log(data);
+
                     // Update incoming messages
                     this.setState({
                         chat: [...this.state.chat, data]
                     });
                     // Scroll down
-                    this.scrollToBot('chatBox');
+                    scrollToBot('chatBox');
                 }
             });
         }
@@ -110,7 +94,7 @@ class Room extends Component {
         // Format data from state to submit
         let { user: name, message } = this.state;
         let date = new Date();
-        let username = capitalize(name);
+        let username = name;
         let content = capitalize(message[0]);
         let hour = date.getHours();
         let min = date.getMinutes();
@@ -127,7 +111,7 @@ class Room extends Component {
                 chat: lastChat
             },
             () => {
-                this.scrollToBot('chatBox');
+                scrollToBot('chatBox');
             }
         );
     }
@@ -144,10 +128,11 @@ class Room extends Component {
                             return (
                                 <div key={index} className="chatBox--message">
                                     <Message
+                                        id={index}
                                         username={data.username}
                                         content={data.content}
                                         time={data.time}
-                                        logUser={capitalize(username)}
+                                        logUser={username}
                                     />
                                 </div>
                             );

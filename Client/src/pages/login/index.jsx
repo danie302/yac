@@ -67,6 +67,7 @@ class Login extends Component {
                             </p>
                             <form noValidate onSubmit={this.onSubmit}>
                                 <input
+                                    className="form-control form-control-lg"
                                     placeholder="Email Address"
                                     name="email"
                                     type="email"
@@ -75,6 +76,7 @@ class Login extends Component {
                                 />
 
                                 <input
+                                    className="form-control form-control-lg"
                                     placeholder="Password"
                                     name="password"
                                     type="password"

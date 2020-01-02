@@ -12,7 +12,7 @@ import { GET_ERRORS, SET_CURRENT_USER } from './types';
 export const registerUser = (userData, href) => dispatch => {
     axios
         .post(config.api.uri + '/register', userData)
-        .then(res => href('/room'))
+        .then(res => href('/login'))
         .catch(err =>
             dispatch({
                 type: GET_ERRORS,

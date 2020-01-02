@@ -54,7 +54,6 @@ class Register extends Component {
         });
     }
     render() {
-        const { errors } = this.state;
         return (
             <div className="register">
                 <div className="container">
@@ -66,6 +65,7 @@ class Register extends Component {
                             </p>
                             <form noValidate onSubmit={this.onSubmit}>
                                 <input
+                                    className="form-control form-control-lg"
                                     placeholder="Username"
                                     name="username"
                                     type="username"
@@ -73,6 +73,7 @@ class Register extends Component {
                                     onChange={this.onChange}
                                 />
                                 <input
+                                    className="form-control form-control-lg"
                                     placeholder="Email Address"
                                     name="email"
                                     type="email"
@@ -80,19 +81,12 @@ class Register extends Component {
                                     onChange={this.onChange}
                                 />
                                 <input
+                                    className="form-control form-control-lg"
                                     placeholder="Password"
                                     name="password"
                                     type="password"
                                     value={this.state.password}
                                     onChange={this.onChange}
-                                />
-                                <input
-                                    placeholder="Password"
-                                    name="password2"
-                                    type="password"
-                                    value={this.state.password2}
-                                    onChange={this.onChange}
-                                    error={errors.password2}
                                 />
                                 <input
                                     type="submit"
