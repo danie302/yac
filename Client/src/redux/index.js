@@ -20,6 +20,11 @@ if (isChrome()) {
     devTools = compose(applyMiddleware(...middleware));
 }
 
-const store = createStore(rootReducer, initialState, devTools);
+//const store = createStore(rootReducer, initialState, devTools);
+const store = createStore(
+    rootReducer,
+    initialState,
+    compose(applyMiddleware(...middleware))
+);
 
 export default store;
