@@ -1,7 +1,7 @@
 {
-    "baseUrl": "http://www.url.sh",
+    "baseUrl": "http://3.232.166.22:5000",
     "api": {
-        "uri": "http://www.url.sh/api",
+        "uri": "http://3.232.166.22:5000/api",
         "credentials": "c2VjcmV0IGtleQ=="
     }
 }
