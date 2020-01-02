@@ -56,7 +56,6 @@ class Login extends Component {
     }
 
     render() {
-        const { errors } = this.state;
         return (
             <div className="login">
                 <div className="container">

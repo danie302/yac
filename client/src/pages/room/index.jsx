@@ -5,6 +5,9 @@ import io from 'socket.io-client';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+// Import util
+import { isEmpty } from '../../utils/is';
+
 // Components
 import Message from '../../components/message';
 
@@ -23,16 +26,44 @@ import { capitalize } from '../../utils/utils';
 class Room extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            name: '',
+            message: '',
+            chat: []
+        };
         // Init socket connection
         this.socket = io(config.baseUrl);
+        // Retrieve chats
+        this.props.getChat();
     }
 
-    // Init state
-    state = {
-        name: '',
-        message: '',
-        chat: []
-    };
+    static getDerivedStateFromProps(props, state) {
+        console.log(state);
+
+        if (props.chat.isReady === true && isEmpty(state.chat)) {
+            // Load chat in to state
+            let newChat = [];
+            props.chat.chat.map((data, index) => {
+                let { username, content, time } = data;
+                username = capitalize(username);
+                content = capitalize(content);
+                let tempMsg = { username, content, time };
+                newChat.push(tempMsg);
+            });
+            return {
+                chat: newChat,
+                user: props.auth.user.data.username
+            };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.chat !== prevState.chat) {
+            this.scrollToBot('chatBox');
+        }
+    }
+
     // Function to keep chat box at the bottom
     scrollToBot(id) {
         const divToScrollTo = document.getElementById(id);
@@ -45,11 +76,7 @@ class Room extends Component {
             });
         }
     }
-    UNSAFE_componentWillMount() {
-        // Retrieve chats
-        this.props.getChat();
-        console.log(this.props.auth);
-    }
+
     componentDidMount() {
         // Check if user is already authenticated
         if (!this.props.auth.isAuthenticated) {
@@ -66,26 +93,9 @@ class Room extends Component {
                     this.scrollToBot('chatBox');
                 }
             });
-            // Load chat in to state
-            let newChat = [];
-            this.props.chat.chat.map((data, index) => {
-                let { username, content, time } = data;
-                username = capitalize(username);
-                content = capitalize(content);
-                let tempMsg = { username, content, time };
-                newChat.push(tempMsg);
-            });
-            this.setState(
-                {
-                    chat: newChat,
-                    user: this.props.auth.user.data.username
-                },
-                () => {
-                    this.scrollToBot('chatBox');
-                }
-            );
         }
     }
+
     componentWillUnmount() {
         // Remove socket listeners
         this.socket.removeAllListeners();
@@ -94,12 +104,11 @@ class Room extends Component {
         this.setState({
             [data.target.name]: [data.target.value]
         });
-        console.log(this.props.auth);
     }
     Submit(e) {
         e.preventDefault();
         // Format data from state to submit
-        let { name, message } = this.state;
+        let { user: name, message } = this.state;
         let date = new Date();
         let username = capitalize(name);
         let content = capitalize(message[0]);
@@ -123,7 +132,9 @@ class Room extends Component {
         );
     }
     render() {
-        let { chat, message, user: username } = this.state;
+        let { chat, message } = this.state;
+        let { username } = this.props.auth.user.data;
+
         return (
             <div className="wrapper">
                 <div className="chatBox">

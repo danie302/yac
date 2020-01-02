@@ -10,7 +10,7 @@ class Message extends Component {
             <div className="messageBox">
                 <div
                     className={`messageBox--name ${
-                        this.props.logUser == this.props.username
+                        this.props.logUser === this.props.username
                             ? 'messageBox--left'
                             : 'messageBox--right'
                     }`}
@@ -19,7 +19,7 @@ class Message extends Component {
                 </div>
                 <div
                     className={`messageBox--content ${
-                        this.props.logUser == this.props.username
+                        this.props.logUser === this.props.username
                             ? 'messageBox--left'
                             : 'messageBox--right'
                     }`}
@@ -28,7 +28,7 @@ class Message extends Component {
                 </div>
                 <div
                     className={`messageBox--time ${
-                        this.props.logUser == this.props.username
+                        this.props.logUser === this.props.username
                             ? 'messageBox--left'
                             : 'messageBox--right'
                     }`}
